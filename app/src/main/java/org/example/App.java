@@ -3,12 +3,21 @@
  */
 package org.example;
 
+import java.util.Scanner;
+
+import main.java.org.example.cmd.UIEngine;
+import main.java.org.example.cmd.screens.Intro;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        UIEngine.builder()
+            .bankApp(null)
+            .currentScreen(Intro.builder().build())
+            .scanner(new Scanner(System.in))
+            .build().run();
     }
 }

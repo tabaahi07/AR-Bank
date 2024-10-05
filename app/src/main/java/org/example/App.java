@@ -9,7 +9,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        // lauda
+        // Beginning of an epic bank
         System.out.println(new App().getGreeting());
     }
 }

@@ -1,9 +1,19 @@
 package main.java.org.example;
 
+import main.java.org.example.commons.AccountBalanceRequest;
+import main.java.org.example.commons.AccountBalanceResponse;
+import main.java.org.example.commons.AddCustomerAccountRequest;
+import main.java.org.example.commons.AddCustomerAccountResponse;
 import main.java.org.example.commons.AddCustomerDetailsRequest;
 import main.java.org.example.commons.AddCustomerDetailsResponse;
 import main.java.org.example.commons.CustomerLoginRequest;
 import main.java.org.example.commons.CustomerLoginResponse;
+import main.java.org.example.commons.DepositAmountRequest;
+import main.java.org.example.commons.DepositAmountResponse;
+import main.java.org.example.commons.ListCustomerAccountRequest;
+import main.java.org.example.commons.ListCustomerAccountResponse;
+import main.java.org.example.commons.WithdrawAmountRequest;
+import main.java.org.example.commons.WithdrawAmountResponse;
 
 public interface IBankApp {
     /**
@@ -15,7 +25,7 @@ public interface IBankApp {
     public CustomerLoginResponse customerLogin(CustomerLoginRequest request);
 
     /**
-     * create Customer Account
+     * create Customer
      * @param request
      * @return
      */
@@ -26,5 +36,33 @@ public interface IBankApp {
      * @param request
      * @return
      */
-    public AddCustomerDetailsResponse createCustomerAccount(AddCustomerDetailsRequest request);
+    public AddCustomerAccountResponse createCustomerAccount(AddCustomerAccountRequest request);
+
+    /**
+     * list Customer Accounts
+     * @param request
+     * @return
+     */
+    public ListCustomerAccountResponse listCustomerAccounts(ListCustomerAccountRequest request);
+
+    /**
+     * Deposit Amount into account
+     * @param request
+     * @return
+     */
+    public DepositAmountResponse depositAmount(DepositAmountRequest request);
+
+    /**
+     * Withdraw Amount from account
+     * @param request
+     * @return
+     */
+    public WithdrawAmountResponse withdrawAmount(WithdrawAmountRequest request);
+
+    /**
+     * Get Balance of a particular account
+     * @param request
+     * @return
+     */
+    public AccountBalanceResponse accountBalance(AccountBalanceRequest request);
 }

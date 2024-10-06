@@ -1,4 +1,4 @@
-package main.java.org.example.cmd;
+package org.example.cmd;
 
 public class Context {
 

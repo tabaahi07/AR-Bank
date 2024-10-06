@@ -1,7 +1,7 @@
-package main.java.org.example.cmd;
+package org.example.cmd;
 
-import main.java.org.example.IBankApp;
-import main.java.org.example.cmd.screens.Intro;
+import org.example.IBankApp;
+import org.example.cmd.screens.Intro;
 
 import java.util.Scanner;
 

@@ -1,6 +1,6 @@
-package main.java.org.example.cmd.screens;
+package org.example.cmd.screens;
 
-import main.java.org.example.cmd.IBankScreen;
+import org.example.cmd.IBankScreen;
 
 import java.util.Scanner;
 

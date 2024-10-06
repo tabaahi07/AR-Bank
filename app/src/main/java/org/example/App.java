@@ -5,8 +5,8 @@ package org.example;
 
 import java.util.Scanner;
 
-import main.java.org.example.cmd.UIEngine;
-import main.java.org.example.cmd.screens.Intro;
+import org.example.cmd.UIEngine;
+import org.example.cmd.screens.Intro;
 
 public class App {
     public String getGreeting() {

@@ -1,8 +1,7 @@
-package main.java.org.example.cmd.screens;
+package org.example.cmd.screens;
 
-import main.java.org.example.cmd.Context;
-import main.java.org.example.cmd.IBankScreen;
-import main.java.org.example.cmd.UIUserInput;
+import org.example.cmd.IBankScreen;
+import org.example.cmd.UIUserInput;
 import lombok.Builder;
 
 import java.util.Scanner;

@@ -1,8 +1,8 @@
-package main.java.org.example.commons;
+package org.example.commons;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import main.java.org.example.commons.Enums.WithdrawStatus;
+import org.example.commons.Enums.WithdrawStatus;
 
 public class WithdrawAmountResponse {
     private WithdrawStatus status;

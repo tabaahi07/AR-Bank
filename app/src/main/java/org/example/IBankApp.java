@@ -1,19 +1,6 @@
-package main.java.org.example;
+package org.example;
 
-import main.java.org.example.commons.AccountBalanceRequest;
-import main.java.org.example.commons.AccountBalanceResponse;
-import main.java.org.example.commons.AddCustomerAccountRequest;
-import main.java.org.example.commons.AddCustomerAccountResponse;
-import main.java.org.example.commons.AddCustomerDetailsRequest;
-import main.java.org.example.commons.AddCustomerDetailsResponse;
-import main.java.org.example.commons.CustomerLoginRequest;
-import main.java.org.example.commons.CustomerLoginResponse;
-import main.java.org.example.commons.DepositAmountRequest;
-import main.java.org.example.commons.DepositAmountResponse;
-import main.java.org.example.commons.ListCustomerAccountRequest;
-import main.java.org.example.commons.ListCustomerAccountResponse;
-import main.java.org.example.commons.WithdrawAmountRequest;
-import main.java.org.example.commons.WithdrawAmountResponse;
+import org.example.commons.*;
 
 public interface IBankApp {
     /**

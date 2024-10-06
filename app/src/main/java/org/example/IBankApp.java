@@ -1,5 +1,4 @@
 package org.example;
-
 import org.example.commons.*;
 
 public interface IBankApp {

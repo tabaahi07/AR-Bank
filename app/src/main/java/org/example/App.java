@@ -3,13 +3,21 @@
  */
 package org.example;
 
+import java.util.Scanner;
+
+import org.example.cmd.UIEngine;
+import org.example.cmd.screens.Intro;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        // Beginning of an epic bank
-        System.out.println(new App().getGreeting());
+        UIEngine.builder()
+            .bankApp(null)
+            .currentScreen(Intro.builder().build())
+            .scanner(new Scanner(System.in))
+            .build().run();
     }
 }

@@ -1,9 +1,9 @@
-package main.java.org.example.commons;
+package org.example.commons;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import main.java.org.example.commons.Enums.DepositStatus;
+import org.example.commons.Enums.DepositStatus;
 
 public class DepositAmountResponse {
     private DepositStatus status;

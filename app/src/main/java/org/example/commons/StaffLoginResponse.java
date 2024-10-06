@@ -1,4 +1,4 @@
-package main.java.org.example.commons;
+package org.example.commons;
 
 public class StaffLoginResponse {
 

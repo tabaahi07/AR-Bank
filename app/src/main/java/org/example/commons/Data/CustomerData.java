@@ -1,9 +1,11 @@
-package org.example.commons;
+package org.example.commons.Data;
+import lombok.Builder ; 
 import java.time.LocalDate;
-import lombok.Getter; 
 
-@Getter 
-public class AddCustomerDetailsRequest {
+@Builder
+public class CustomerData {
+    private String customerId ;
+    private String passwordHash ; 
     private String firstName;
     private String middleName;
     private String lastName;
@@ -13,6 +15,6 @@ public class AddCustomerDetailsRequest {
     private String PAN;
     private String address;
     private String aadharNumber;    
-} 
+}
 
 

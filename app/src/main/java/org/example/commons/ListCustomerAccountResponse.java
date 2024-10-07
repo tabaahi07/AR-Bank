@@ -1,14 +1,18 @@
 package org.example.commons;
+import lombok.Builder;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalDate;
 import java.util.List;
 
+@Builder
 public class ListCustomerAccountResponse {
     List<CustomerAccount> customerAccounts;
 
-    class CustomerAccount {
+    @Builder
+    public static class CustomerAccount {
         String accountId;
         String accountNumber;
-        LocalDateTime createdDate;
+        LocalDate createdDate;
     }
 }

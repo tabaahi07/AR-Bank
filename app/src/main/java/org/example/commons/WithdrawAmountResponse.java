@@ -6,7 +6,7 @@ import org.example.commons.Enums.WithdrawStatus;
 
 @Builder
 public class WithdrawAmountResponse {
-    private WithdrawStatus status;
+    private WithdrawStatus withdrawStatus ;
     private String message;
     private Integer accountBalance;
     private String transactionId;

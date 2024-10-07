@@ -6,7 +6,7 @@ import lombok.Builder;
 
 @Builder
 public class DepositAmountResponse {
-    private DepositStatus status;
+    private DepositStatus depositStatus  ;
     private String message;
     private Integer accountBalance;
     private String transactionId;

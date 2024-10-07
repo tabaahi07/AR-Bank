@@ -5,4 +5,5 @@ import lombok.*;
 public class DepositAmountRequest extends AuthenticatedRequest {
     private String accountId;
     private Integer amount;
+    private String loginToken ;
 }

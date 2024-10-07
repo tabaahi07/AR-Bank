@@ -8,11 +8,28 @@ import org.example.commons.Data.CustomerData;
 import org.example.commons.Data.DataStore;
 import org.example.commons.Data.LoginSession;
 import org.example.commons.Enums.AccountCreationStatus;
+import org.example.commons.Enums.BalanceCheckStatus;
 import org.example.commons.Enums.DepositStatus;
+import org.example.commons.Enums.ListCustomerAccountResponseStatus;
 import org.example.commons.Enums.WithdrawStatus;
 
 
+
 public class BankApp implements IBankApp {
+	public Boolean isValidSession(String currentSessionLoginToken ){
+		LocalDateTime currentDateTime = LocalDateTime.now() ;
+		for(String key : DataStore.getInstance().LoginSessionMap.keySet()){
+			List<LoginSession> loginSessionList = DataStore.getInstance().LoginSessionMap.get(key) ;
+			for(LoginSession it : loginSessionList){
+				Duration duration = Duration.between(it.getLoginDateAndTime() , currentDateTime) ;
+				if (currentSessionLoginToken == it.getLoginToken() && Math.abs(duration.toMinutes()) <= 15){
+					return true ;
+				} 
+			}
+		}
+		return false ;
+	}
+
 	public CustomerLoginResponse customerLogin(CustomerLoginRequest request){
 		String randomID = UUID.randomUUID().toString() ;
 		String token = request.getCustomerId() + "_"  + randomID ;
@@ -45,21 +62,8 @@ public class BankApp implements IBankApp {
 
 		String accountId = UUID.randomUUID().toString() ;
 		String accountNumber = UUID.randomUUID().toString() ;
-		String currentSessionLoginToken = request.getLoginToken() ;
 		// checking if loginToken match if existing login Session within specified time range
-		Boolean isValidSession = false ;
-		LocalDateTime currentDateTime = LocalDateTime.now() ;
-		for(String key : DataStore.getInstance().LoginSessionMap.keySet()){
-			List<LoginSession> loginSessionList = DataStore.getInstance().LoginSessionMap.get(key) ;
-			for(LoginSession it : loginSessionList){
-				Duration duration = Duration.between(it.getLoginDateAndTime() , currentDateTime) ;
-				if (currentSessionLoginToken == it.getLoginToken() && Math.abs(duration.toMinutes()) <= 15){
-					isValidSession = true ;
-				} 
-			}
-		}
-
-		if(isValidSession){
+		if(isValidSession(request.getLoginToken())){
 			AccountData accountDataObj = AccountData.builder().accountId(accountId)
 			.accountNumber(accountNumber)
 			.currentbalance(0)
@@ -70,61 +74,78 @@ public class BankApp implements IBankApp {
 			List<AccountData> accountsList = DataStore.getInstance().CustomerAccountsMap.get(request.getCustomerId()) ;
 
 			accountsList.add(accountDataObj) ;
-			return AddCustomerAccountResponse.builder().accountId(accountId).accountNumber(accountNumber).customerId(request.getCustomerId()).AccountCreationStatus(AccountCreationStatus.APPROVED).build() ;
+			return AddCustomerAccountResponse.builder().accountId(accountId).accountNumber(accountNumber).customerId(request.getCustomerId()).accountCreationStatus(AccountCreationStatus.APPROVED).build() ;
 		}
 		else{
-			return AddCustomerAccountResponse.builder().accountId("").accountNumber("").AccountCreationStatus(AccountCreationStatus.REJECTED).build() ;
+			return AddCustomerAccountResponse.builder().accountId("").accountNumber("").accountCreationStatus(AccountCreationStatus.REJECTED).build() ;
 		}
 	}
 
 	public ListCustomerAccountResponse listCustomerAccounts(ListCustomerAccountRequest request) {
-		List<AccountData> customerAccountsList = DataStore.getInstance().CustomerAccountsMap.get(request.getCustomerId()) ;
+		if(isValidSession(request.getLoginToken())){
+			List<AccountData> customerAccountsList = DataStore.getInstance().CustomerAccountsMap.get(request.getCustomerId()) ;
 
-		return ListCustomerAccountResponse.builder().customerAccounts(
-			customerAccountsList.stream().map(
-				accountData -> ListCustomerAccountResponse.CustomerAccount.builder().accountId(accountData.getAccountId())
-				.accountNumber(accountData.getAccountNumber())
-				.createdDate(accountData.getCreatedDate()).build() 
-			).toList() 
-			
-		).build() ; 
+			return ListCustomerAccountResponse.builder().customerAccounts(
+				customerAccountsList.stream().map(
+					accountData -> ListCustomerAccountResponse.CustomerAccount.builder().accountId(accountData.getAccountId())
+					.accountNumber(accountData.getAccountNumber())
+					.createdDate(accountData.getCreatedDate()).build() 
+				).toList()
+				
+			).listCustomerAccountResponseStatus(ListCustomerAccountResponseStatus.APPROVED).build() ; 
+		}
+
+		else{
+			return ListCustomerAccountResponse.builder().listCustomerAccountResponseStatus(ListCustomerAccountResponseStatus.REJECTED).build() ;
+		}
+
 	} 
 
 
 	public DepositAmountResponse depositAmount(DepositAmountRequest request) {
-		AccountData accountDataObj = DataStore.getInstance().AccountDataMap.get(request.getAccountId()) ;
-
-		accountDataObj.setCurrentbalance(accountDataObj.getCurrentbalance() + request.getAmount()) ;
-
-		String transactionId = UUID.randomUUID().toString() ;
-		return DepositAmountResponse.builder().status(DepositStatus.APPROVED)
-		.message("Money deposited")
-		.accountBalance(accountDataObj.getCurrentbalance())
-		.transactionId(transactionId)
-		.transactionDate(LocalDate.now())
-		.transactionTime(LocalTime.now())
-		.transactionAmount(request.getAmount()).build() ;
+		if(isValidSession(request.getLoginToken()) && (request.getAmount() > 0)){
+			AccountData accountDataObj = DataStore.getInstance().AccountDataMap.get(request.getAccountId()) ;
+			accountDataObj.setCurrentbalance(accountDataObj.getCurrentbalance() + request.getAmount()) ;
+			String transactionId = UUID.randomUUID().toString() ;
+			return DepositAmountResponse.builder().depositStatus(DepositStatus.APPROVED)
+			.message("Money deposited")
+			.accountBalance(accountDataObj.getCurrentbalance())
+			.transactionId(transactionId)
+			.transactionDate(LocalDate.now())
+			.transactionTime(LocalTime.now())
+			.transactionAmount(request.getAmount()).build() ;
+		}
+		else{
+			return DepositAmountResponse.builder().depositStatus(DepositStatus.REJECTED).build() ;
+		}
 	}
 
 
 	public WithdrawAmountResponse withdrawAmount(WithdrawAmountRequest request) {
-		AccountData accountDataObj = DataStore.getInstance().AccountDataMap.get(request.getAccountId()) ;
-
-		accountDataObj.setCurrentbalance(accountDataObj.getCurrentbalance() - request.getAmount()) ;
-
-		String transactionId = UUID.randomUUID().toString() ;
-		return WithdrawAmountResponse.builder().status(WithdrawStatus.APPROVED)
-		.message("Money withdrawn")
-		.accountBalance(accountDataObj.getCurrentbalance())
-		.transactionId(transactionId)
-		.transactionDate(LocalDate.now())
-		.transactionTime(LocalTime.now())
-		.transactionAmount(request.getAmount()).build() ;
+		if(isValidSession(request.getLoginToken()) && request.getAmount() > 0){
+			AccountData accountDataObj = DataStore.getInstance().AccountDataMap.get(request.getAccountId()) ;
+			accountDataObj.setCurrentbalance(accountDataObj.getCurrentbalance() - request.getAmount()) ;
+			String transactionId = UUID.randomUUID().toString() ;
+			return WithdrawAmountResponse.builder().withdrawStatus(WithdrawStatus.APPROVED)
+			.message("Money withdrawn")
+			.accountBalance(accountDataObj.getCurrentbalance())
+			.transactionId(transactionId)
+			.transactionDate(LocalDate.now())
+			.transactionTime(LocalTime.now())
+			.transactionAmount(request.getAmount()).build() ;
+		}
+		else{
+			return WithdrawAmountResponse.builder().withdrawStatus(WithdrawStatus.REJECTED).build() ;
+		}
 	}
 
 	public AccountBalanceResponse accountBalance(AccountBalanceRequest request) {
-		AccountData userAccountObj = DataStore.getInstance().AccountDataMap.get(request.getAccountId()) ;
-		return AccountBalanceResponse.builder().balance(userAccountObj.getCurrentbalance()).build() ;
+		if(isValidSession(request.getLoginToken())){
+			AccountData userAccountObj = DataStore.getInstance().AccountDataMap.get(request.getAccountId()) ;
+			return AccountBalanceResponse.builder().balance(userAccountObj.getCurrentbalance()).balanceCheckStatus(BalanceCheckStatus.APPROVED).build() ;
+		}
+		else{
+			return AccountBalanceResponse.builder().balanceCheckStatus(BalanceCheckStatus.REJECTED).build() ;
+		}
 	}
-	
 }

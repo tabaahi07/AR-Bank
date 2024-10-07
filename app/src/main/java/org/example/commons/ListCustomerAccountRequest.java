@@ -4,4 +4,5 @@ import lombok.Getter;
 @Getter 
 public class ListCustomerAccountRequest extends AuthenticatedRequest {
     private String customerId;
+    private String loginToken ;
 }

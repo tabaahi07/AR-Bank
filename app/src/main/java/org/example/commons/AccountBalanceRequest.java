@@ -4,4 +4,5 @@ import lombok.*;
 @Getter
 public class AccountBalanceRequest extends AuthenticatedRequest {
     private String accountId;
+    private String loginToken ;
 }

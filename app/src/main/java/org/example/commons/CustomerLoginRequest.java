@@ -3,6 +3,6 @@ import lombok.Getter;
 
 @Getter
 public class CustomerLoginRequest {
-    private String userId;
+    private String CustomerId;
     private String passwd;
 }

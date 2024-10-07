@@ -10,6 +10,8 @@ public class DataStore {
     public Map<String , List<AccountData>> CustomerAccountsMap ;
     // AccountId - Account Details
     public Map<String , AccountData> AccountDataMap ;
+    // CustomerId - LoginToken
+    public Map<String , List<LoginSession>> LoginSessionMap ;
     private static DataStore Instance ;
     private void DataStore(){
         CustomerDataMap = new HashMap<>() ;

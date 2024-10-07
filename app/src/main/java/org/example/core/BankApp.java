@@ -2,11 +2,12 @@ package org.example.core ;
 import org.example.IBankApp ;
 import org.example.commons.* ;
 import java.util.* ;
-import java.time.LocalDate ;
-import java.time.LocalTime ;
+import java.time.* ;
 import org.example.commons.Data.AccountData;
 import org.example.commons.Data.CustomerData;
 import org.example.commons.Data.DataStore;
+import org.example.commons.Data.LoginSession;
+import org.example.commons.Enums.AccountCreationStatus;
 import org.example.commons.Enums.DepositStatus;
 import org.example.commons.Enums.WithdrawStatus;
 
@@ -14,7 +15,10 @@ import org.example.commons.Enums.WithdrawStatus;
 public class BankApp implements IBankApp {
 	public CustomerLoginResponse customerLogin(CustomerLoginRequest request){
 		String randomID = UUID.randomUUID().toString() ;
-		String token = request.getUserId() + "_"  + randomID ;
+		String token = request.getCustomerId() + "_"  + randomID ;
+		LoginSession LoginSessionObj = LoginSession.builder().customerId(request.getCustomerId()).loginToken(token).loginDateAndTime(LocalDateTime.now()).build() ;
+		List<LoginSession> LoginSessionList = DataStore.getInstance().LoginSessionMap.get(request.getCustomerId()) ;
+		LoginSessionList.add(LoginSessionObj) ;
 		return CustomerLoginResponse.builder().accessToken(token).build() ;
 	}
 	
@@ -38,20 +42,39 @@ public class BankApp implements IBankApp {
 	}
 
 	public AddCustomerAccountResponse createCustomerAccount(AddCustomerAccountRequest request) {
+
 		String accountId = UUID.randomUUID().toString() ;
 		String accountNumber = UUID.randomUUID().toString() ;
+		String currentSessionLoginToken = request.getLoginToken() ;
+		// checking if loginToken match if existing login Session within specified time range
+		Boolean isValidSession = false ;
+		LocalDateTime currentDateTime = LocalDateTime.now() ;
+		for(String key : DataStore.getInstance().LoginSessionMap.keySet()){
+			List<LoginSession> loginSessionList = DataStore.getInstance().LoginSessionMap.get(key) ;
+			for(LoginSession it : loginSessionList){
+				Duration duration = Duration.between(it.getLoginDateAndTime() , currentDateTime) ;
+				if (currentSessionLoginToken == it.getLoginToken() && Math.abs(duration.toMinutes()) <= 15){
+					isValidSession = true ;
+				} 
+			}
+		}
 
-		AccountData accountDataObj = AccountData.builder().accountId(accountId)
-		.accountNumber(accountNumber)
-		.currentbalance(0)
-		.createdDate(LocalDate.now())
-		.customerId(request.getCustomerId()).build() ;
+		if(isValidSession){
+			AccountData accountDataObj = AccountData.builder().accountId(accountId)
+			.accountNumber(accountNumber)
+			.currentbalance(0)
+			.createdDate(LocalDate.now())
+			.customerId(request.getCustomerId()).build() ;
 
-		DataStore.getInstance().AccountDataMap.put(accountId , accountDataObj) ;
-		List<AccountData> accountsList = DataStore.getInstance().CustomerAccountsMap.get(request.getCustomerId()) ;
+			DataStore.getInstance().AccountDataMap.put(accountId , accountDataObj) ;
+			List<AccountData> accountsList = DataStore.getInstance().CustomerAccountsMap.get(request.getCustomerId()) ;
 
-		accountsList.add(accountDataObj) ;
-		return AddCustomerAccountResponse.builder().accountId(accountId).accountNumber(accountNumber).customerId(request.getCustomerId()).build() ;
+			accountsList.add(accountDataObj) ;
+			return AddCustomerAccountResponse.builder().accountId(accountId).accountNumber(accountNumber).customerId(request.getCustomerId()).AccountCreationStatus(AccountCreationStatus.APPROVED).build() ;
+		}
+		else{
+			return AddCustomerAccountResponse.builder().accountId("").accountNumber("").AccountCreationStatus(AccountCreationStatus.REJECTED).build() ;
+		}
 	}
 
 	public ListCustomerAccountResponse listCustomerAccounts(ListCustomerAccountRequest request) {

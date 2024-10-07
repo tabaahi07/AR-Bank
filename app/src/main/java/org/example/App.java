@@ -3,7 +3,8 @@
  */
 package org.example;
 
-import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 import org.example.cmd.UIEngine;
 import org.example.cmd.screens.Intro;
@@ -14,10 +15,17 @@ public class App {
     }
 
     public static void main(String[] args) {
-        UIEngine.builder()
-            .bankApp(null)
-            .currentScreen(Intro.builder().build())
-            .scanner(new Scanner(System.in))
-            .build().run();
+        Connection connection = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/bankapp?useSSL=false",
+                "root",
+                "passwd"
+            );
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

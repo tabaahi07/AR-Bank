@@ -9,7 +9,7 @@ import lombok.Builder;
 @Builder
 public class CreateAccount implements IBankScreen {
     @Override
-    public void show(Scanner scanner) {
+    public void show() {
         System.out.println("Create Account");
     }
 

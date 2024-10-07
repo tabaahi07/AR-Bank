@@ -1,10 +1,11 @@
 package org.example.cmd.screens;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+
 import org.example.cmd.IBankScreen;
 import org.example.cmd.UIUserInput;
 import lombok.Builder;
-
-import java.util.Scanner;
 
 @Builder
 public class Intro implements IBankScreen {
@@ -12,7 +13,7 @@ public class Intro implements IBankScreen {
     private int choice;
 
     @Override
-    public void show(Scanner scanner) {
+    public void show() {
         System.out.println("Welcome to the bank! Please log into your existing account or create a new account.");
         System.out.println("1. Log in");
         System.out.println("2. Create a new account");

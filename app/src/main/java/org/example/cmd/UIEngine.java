@@ -1,9 +1,6 @@
 package org.example.cmd;
 
 import org.example.IBankApp;
-import org.example.cmd.screens.Intro;
-
-import java.util.Scanner;
 
 import lombok.Builder;
 
@@ -11,11 +8,13 @@ import lombok.Builder;
 public class UIEngine {
     private IBankApp bankApp;
     private IBankScreen currentScreen;
-    private Scanner scanner;
 
     public void run() {
+
+        Context.getInstance().setBankApp(bankApp);
+
         while (currentScreen != null) {
-            currentScreen.show(scanner);
+            currentScreen.show();
             currentScreen = currentScreen.next();
         }
     }

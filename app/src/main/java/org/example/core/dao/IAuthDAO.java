@@ -6,3 +6,4 @@ import java.util.Optional;
 public interface IAuthDAO {
     public Optional<UserAuth> getUserAuth(String userId);
 }
+

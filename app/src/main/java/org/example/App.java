@@ -16,7 +16,6 @@ public class App {
     public static void main(String[] args) {
 
         IAuthDAO authDAO = new AuthDAO();
-
         BankApp bankApp = BankApp
             .builder().authService(
                 AuthService

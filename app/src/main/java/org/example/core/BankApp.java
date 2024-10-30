@@ -3,13 +3,15 @@ package org.example.core;
 import org.example.IBankApp;
 import org.example.commons.*;
 import org.example.core.services.AuthService;
+import org.example.core.services.CustomerService;
 
 import lombok.Builder;
 
 @Builder
 public class BankApp implements IBankApp {
 
-    private AuthService authService;
+    private AuthService authService ;
+    private CustomerService customerService ;
 
     @Override
     public CustomerLoginResponse customerLogin(CustomerLoginRequest request) {
@@ -17,11 +19,10 @@ public class BankApp implements IBankApp {
                 .accessToken(authService.login(request.getUserId(), request.getPasswd()))
                 .build();
     }
-
+    
     @Override
     public AddCustomerDetailsResponse createCustomer(AddCustomerDetailsRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createCustomer'");
+        return AddCustomerDetailsResponse.builder().customerId(customerService.addCustomer(request)).build() ;
     }
 
     @Override

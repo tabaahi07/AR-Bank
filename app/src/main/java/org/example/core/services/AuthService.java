@@ -3,9 +3,7 @@ package org.example.core.services;
 import org.example.core.dao.IAuthDAO;
 import org.example.core.data.UserAuth;
 import java.time.LocalDateTime;
-
 import java.util.Optional;
-
 import lombok.Builder;
 
 @Builder

@@ -1,15 +1,15 @@
 package org.example.commons;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.* ;
 import org.example.commons.Enums.WithdrawStatus;
 
+import lombok.Builder;
+
+@Builder
 public class WithdrawAmountResponse {
     private WithdrawStatus status;
-    private String message;
     private Integer accountBalance;
     private String transactionId;
-    private LocalDate transactionDate;
-    private LocalTime transactionTime;
+    private LocalDateTime transactionDateAndTime ;
     private Integer transactionAmount;
 }

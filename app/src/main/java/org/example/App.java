@@ -3,13 +3,29 @@
  */
 package org.example;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+import org.example.cmd.UIEngine;
+import org.example.cmd.screens.Intro;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        // Beginning of an epic bank
-        System.out.println(new App().getGreeting());
+        Connection connection = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/bankapp?useSSL=false",
+                "root",
+                "passwd"
+            );
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

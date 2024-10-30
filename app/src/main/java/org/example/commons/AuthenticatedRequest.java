@@ -1,5 +1,8 @@
 package org.example.commons;
 
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
 public abstract class AuthenticatedRequest {
     private String authToken;
 

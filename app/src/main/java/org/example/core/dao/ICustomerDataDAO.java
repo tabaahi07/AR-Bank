@@ -6,5 +6,5 @@ import java.util.* ;
 
 public interface ICustomerDataDAO {
     public Optional<CustomerData> getCustomerData(String CustomerId) ;
-    public String addCustomerData(AddCustomerDetailsRequest request) ;
+    public String addCustomerData(String newCustomerId , CustomerData newCustomer) ;
 }

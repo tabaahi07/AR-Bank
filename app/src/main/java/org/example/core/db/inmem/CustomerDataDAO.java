@@ -15,10 +15,9 @@ public class CustomerDataDAO implements ICustomerDataDAO {
     }
     
     @Override
-    public String addCustomerData(AddCustomerDetailsRequest request){
-        String uniqueID = UUID.randomUUID().toString();
-        CustomerDataMap.put(uniqueID , CustomerData.builder().firstName(request.getFirstName()).lastName(request.getLastName()).aadharNumber(request.getAadharNumber()).PAN(request.getPAN()).address(request.getAddress()).dateOfBirth(request.getDateOfBirth()).email(request.getEmail()).password(request.getPassword()).build()) ;
-
-        return uniqueID ;
+    public String addCustomerData(String newCustomerId , CustomerData newCustomer){
+        
+        CustomerDataMap.put(newCustomerId , newCustomer) ;
+        return newCustomerId ;
     }
 }

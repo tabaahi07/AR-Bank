@@ -4,9 +4,15 @@
 package org.example;
 
 import org.example.core.BankApp;
+import org.example.core.dao.IAccountsDAO;
 import org.example.core.dao.IAuthDAO;
+import org.example.core.dao.ICustomerDataDAO;
+import org.example.core.db.inmem.AccountsDAO;
+import org.example.core.db.inmem.CustomerDataDAO;
 import org.example.core.db.mysql.AuthDAO;
+import org.example.core.services.AccountsService;
 import org.example.core.services.AuthService;
+import org.example.core.services.CustomerService;
 
 public class App {
     public String getGreeting() {
@@ -16,13 +22,26 @@ public class App {
     public static void main(String[] args) {
 
         IAuthDAO authDAO = new AuthDAO();
-        BankApp bankApp = BankApp
-            .builder().authService(
-                AuthService
-                    .builder()
-                    .authDAO(authDAO)
-                    .build()
-            )
-            .build();
+        ICustomerDataDAO customerDAO = new CustomerDataDAO() ;
+        IAccountsDAO accountDAO = new AccountsDAO() ;
+
+        BankApp bankApp = BankApp.builder().
+        authService(
+            AuthService.
+                builder().
+                authDAO(authDAO).
+                build()
+        ).accountService(
+            AccountsService.
+                builder().
+                accountDAO(accountDAO).
+                build()
+        ).customerService(
+            CustomerService.
+                builder().
+                customerDAO(customerDAO).
+                build()
+        ).build() ;
+        
     }
 }

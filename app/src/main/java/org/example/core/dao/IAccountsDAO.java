@@ -3,14 +3,8 @@ import java.util.*;
 
 import org.example.core.data.Accounts;
 
-
-
-
-
-
-
 public interface IAccountsDAO {
-    public String createAccount(String customerId) ;
+    public String createAccount(String newAccountNumber , Accounts newAccount ,  String customerId) ;
     public Optional<List<Accounts>> getAccounts(String customerId) ;
     public Optional<Accounts> depositAmount(String accountNumber , Integer amount) ;
     public Optional<Accounts> withdrawAmount(String accountNumber , Integer amount) ;

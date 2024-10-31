@@ -10,7 +10,6 @@ public class ListCustomerAccountResponse {
 
     class CustomerAccount {
         String accountNumber;
-        Integer currentBalance ;
         LocalDateTime createdDate;
     }
 }

@@ -36,7 +36,7 @@ public class BankApp implements IBankApp {
 
     @Override
     public AddCustomerAccountResponse createCustomerAccount(AddCustomerAccountRequest request) {
-       return AddCustomerAccountResponse.builder().customerId(request.getCustomerId()).accountNumber(accountService.createAccount(request.getCustomerId())).build() ;
+       return AddCustomerAccountResponse.builder().accountNumber(accountService.createAccount(request.getCustomerId())).build() ;
     }
 
     @Override

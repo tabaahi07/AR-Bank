@@ -4,6 +4,5 @@ import lombok.Builder;
 
 @Builder
 public class AddCustomerAccountResponse {
-    private String accountNumber;
-    private String customerId;    
+    private String accountNumber; 
 }

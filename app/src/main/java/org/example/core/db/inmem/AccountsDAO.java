@@ -4,18 +4,17 @@ import java.time.*;
 import org.example.core.dao.IAccountsDAO;
 import org.example.core.data.Accounts;
 
+import lombok.Getter;
 
 import java.util.*;
 
+@Getter
 public class AccountsDAO implements IAccountsDAO {
     private Map<String , List<Accounts>> accountsMap = new HashMap<>() ;
     private Map<String , Accounts> accountDetailMap = new HashMap<>() ;
-    public String createAccount(String customerId){
-        String newAccountNumber = UUID.randomUUID().toString();
+    
+    public String createAccount(String newAccountNumber , Accounts newAccount , String customerId){
         List<Accounts> currentAccountList = accountsMap.get(customerId) ;
-
-        Accounts newAccount = Accounts.builder().customerId(customerId).accountNumber(newAccountNumber).balance(0).issuedDate(LocalDate.now()).build() ;
-
         accountDetailMap.put(newAccountNumber , newAccount) ;
         currentAccountList.add(newAccount) ;
         accountsMap.put(customerId , currentAccountList) ;

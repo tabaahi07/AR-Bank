@@ -33,18 +33,12 @@ public interface IBankApp {
     public ListCustomerAccountResponse listCustomerAccounts(ListCustomerAccountRequest request);
 
     /**
-     * Deposit Amount into account
+     * Deposit or withdraw Amount into account
      * @param request
      * @return
      */
-    public DepositAmountResponse depositAmount(DepositAmountRequest request);
+    public SetAccountBalanceResponse setAccountBalanceResponse(SetAccountBalanceRequest request);
 
-    /**
-     * Withdraw Amount from account
-     * @param request
-     * @return
-     */
-    public WithdrawAmountResponse withdrawAmount(WithdrawAmountRequest request);
 
     /**
      * Get Balance of a particular account

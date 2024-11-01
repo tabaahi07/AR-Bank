@@ -1,6 +1,6 @@
 package org.example.commons.Enums;
 
-public enum WithdrawStatus {
-    APPROVED,
+public enum TransactionStatus {
+    APPROVED ,
     REJECTED
 }

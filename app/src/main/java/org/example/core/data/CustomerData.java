@@ -1,10 +1,10 @@
-package org.example.commons;
-
-import java.time.LocalDate;
+package org.example.core.data;
+import java.time.* ;
 import lombok.*;
 
 @Getter
-public class AddCustomerDetailsRequest {
+@Builder
+public class CustomerData {
     private String firstName;
     private String middleName;
     private String lastName;

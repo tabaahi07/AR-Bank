@@ -9,7 +9,7 @@ import org.example.core.dao.IAuthDAO;
 import org.example.core.dao.ICustomerDataDAO;
 import org.example.core.db.inmem.AccountsDAO;
 import org.example.core.db.inmem.CustomerDataDAO;
-import org.example.core.db.mysql.AuthDAO;
+import org.example.core.db.inmem.AuthDAO;
 import org.example.core.services.AccountsService;
 import org.example.core.services.AuthService;
 import org.example.core.services.CustomerService;

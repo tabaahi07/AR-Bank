@@ -4,14 +4,8 @@ import org.example.commons.Enums.TransactionType;
 import org.example.core.dao.IAccountsDAO;
 import org.example.core.data.Accounts;
 import org.example.core.dto.TransactionReceipt;
-import org.example.core.dto.TransactionReceipt.TransactionReceiptBuilder;
-
-import com.google.common.base.Enums;
-
 import java.time.* ;
-
 import lombok.Builder;
-
 import java.util.* ;
 
 @Builder
@@ -20,12 +14,19 @@ public class AccountsService {
 
     public String createAccount(String customerId){
         String newAccountNumber = UUID.randomUUID().toString();
-        Accounts newAccount = Accounts.builder().customerId(customerId).accountNumber(newAccountNumber).balance(0).issuedDate(LocalDate.now()).build() ;
+
+        Accounts newAccount = Accounts.builder().
+            customerId(customerId).
+            accountNumber(newAccountNumber).
+            balance(0).
+            issuedDate(LocalDate.now()).
+            build() ;
+
         return accountDAO.createAccount(newAccountNumber , newAccount , customerId) ;
     }
 
-    public Optional<List<Accounts>> geAccounts(String customerId){
-        Optional<List<Accounts>> accountList = accountDAO.getAccounts(customerId) ;
+    public Optional<List<Accounts>> listAccounts(String customerId){
+        Optional<List<Accounts>> accountList = accountDAO.listAccounts(customerId) ;
         if(accountList.isEmpty()) return null ;
         return accountList ;
     }
@@ -40,7 +41,12 @@ public class AccountsService {
 
         TransactionStatus status = (accountDetail.isEmpty()) ? TransactionStatus.REJECTED : TransactionStatus.APPROVED ;
 
-        return TransactionReceipt.builder().accountDetail(accountDetail).status(status).transactionDateAndTime(LocalDateTime.now()).transactionId(transactionId).build() ;
+        return TransactionReceipt.builder().
+            accountDetail(accountDetail).
+            status(status).
+            transactionDateAndTime(LocalDateTime.now()).
+            transactionId(transactionId).
+            build() ;
       
     }
 

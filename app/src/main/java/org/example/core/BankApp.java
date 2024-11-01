@@ -1,7 +1,7 @@
 package org.example.core;
-
 import org.example.IBankApp;
 import org.example.commons.*;
+import org.example.core.data.Accounts;
 import org.example.core.dto.TransactionReceipt;
 import org.example.core.services.AccountsService;
 import org.example.core.services.AuthService;
@@ -25,27 +25,35 @@ public class BankApp implements IBankApp {
     
     @Override
     public AddCustomerDetailsResponse createCustomer(AddCustomerDetailsRequest request) {
-        return AddCustomerDetailsResponse.builder().customerId(customerService.addCustomer(request)).build() ;
+        return AddCustomerDetailsResponse.builder()
+            .customerId(customerService.addCustomer(request))
+            .build() ;
     }
 
     @Override
     public AddCustomerAccountResponse createCustomerAccount(AddCustomerAccountRequest request) {
-       return AddCustomerAccountResponse.builder().accountNumber(accountService.createAccount(request.getCustomerId())).build() ;
+       return AddCustomerAccountResponse.builder().
+            accountNumber(accountService.createAccount(request.getCustomerId())).build() ;
     }
 
     @Override
     public ListCustomerAccountResponse listCustomerAccounts(ListCustomerAccountRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listCustomerAccounts'");
+        Optional<List<Accounts>> accountList = accountService.listAccounts(request.getCustomerId()) ;
+        return ListCustomerAccountResponse.builder().
+            customerAccounts(accountList)
+            .build() ;
     }
 
    public SetAccountBalanceResponse setAccountBalanceResponse(SetAccountBalanceRequest request){
-    
+
      TransactionReceipt receipt = accountService.setAccountBalance(request.getAccountNumber() , request.getAmount() , request.getTransactionType()) ;
 
-     return SetAccountBalanceResponse.builder().transactionAmount(request.getAmount()).status(receipt.getStatus()).transactionDateAndTime(receipt.getTransactionDateAndTime()).transactionId(receipt.getTransactionId()).build() ;
+     return SetAccountBalanceResponse.builder()
+            .transactionAmount(request.getAmount())
+            .status(receipt.getStatus())
+            .transactionDateAndTime(receipt.getTransactionDateAndTime()).transactionId(receipt.getTransactionId()).
+            build() ;
    }
-
 
     @Override
     public AccountBalanceResponse accountBalance(AccountBalanceRequest request) {

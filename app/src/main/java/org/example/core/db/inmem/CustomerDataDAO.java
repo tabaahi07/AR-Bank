@@ -1,10 +1,8 @@
 package org.example.core.db.inmem;
 import java.util.* ;
-
-import org.example.commons.AddCustomerDetailsRequest;
 import org.example.core.dao.ICustomerDataDAO;
 import org.example.core.data.CustomerData;
-import java.util.* ;
+
 
 public class CustomerDataDAO implements ICustomerDataDAO {
     private Map<String , CustomerData> CustomerDataMap = new HashMap<>() ;

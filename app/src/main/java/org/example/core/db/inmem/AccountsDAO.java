@@ -1,12 +1,8 @@
 package org.example.core.db.inmem;
 import java.util.*;
-import java.time.*;
 import org.example.core.dao.IAccountsDAO;
 import org.example.core.data.Accounts;
-
 import lombok.Getter;
-
-import java.util.*;
 
 @Getter
 public class AccountsDAO implements IAccountsDAO {
@@ -21,13 +17,13 @@ public class AccountsDAO implements IAccountsDAO {
         return newAccountNumber ;
     }
 
-    public Optional<List<Accounts>> getAccounts(String customerId){
+    public Optional<List<Accounts>> listAccounts(String customerId){
         return Optional.ofNullable(accountsMap.get(customerId)) ;
     }
 
     public Optional<Accounts> setAccountBalance(String accountNumber , Integer amount){
         if(!accountDetailMap.containsKey(accountNumber)) return null ;
-        
+
         Accounts userAccount = accountDetailMap.get(accountNumber) ;
         userAccount.setBalance(userAccount.getBalance() + amount) ;
         return Optional.of(userAccount) ;

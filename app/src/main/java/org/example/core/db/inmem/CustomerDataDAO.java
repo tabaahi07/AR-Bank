@@ -16,7 +16,6 @@ public class CustomerDataDAO implements ICustomerDataDAO {
     
     @Override
     public String addCustomerData(String newCustomerId , CustomerData newCustomer){
-        
         CustomerDataMap.put(newCustomerId , newCustomer) ;
         return newCustomerId ;
     }

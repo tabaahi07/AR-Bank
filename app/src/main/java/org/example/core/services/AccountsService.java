@@ -1,6 +1,13 @@
 package org.example.core.services;
+import org.example.commons.Enums.TransactionStatus;
+import org.example.commons.Enums.TransactionType;
 import org.example.core.dao.IAccountsDAO;
 import org.example.core.data.Accounts;
+import org.example.core.dto.TransactionReceipt;
+import org.example.core.dto.TransactionReceipt.TransactionReceiptBuilder;
+
+import com.google.common.base.Enums;
+
 import java.time.* ;
 
 import lombok.Builder;
@@ -23,12 +30,18 @@ public class AccountsService {
         return accountList ;
     }
 
-    public Optional<Accounts> depositAmount(String accountNumber , Integer amount){
-        return accountDAO.depositAmount(accountNumber, amount) ;
-    }
+    public TransactionReceipt setAccountBalance(String accountNumber , Integer amount , TransactionType transactionType){
+        Optional<Accounts> accountDetail ;
+        if(transactionType == TransactionType.DEPOSIT) accountDetail = accountDAO.setAccountBalance(accountNumber , amount) ;
 
-    public Optional<Accounts> withdrawAmount(String accountNumber , Integer amount){
-        return accountDAO.withdrawAmount(accountNumber, amount) ;
+        accountDetail = accountDAO.setAccountBalance(accountNumber , (-1*amount)) ;
+
+        String transactionId = UUID.randomUUID().toString();
+
+        TransactionStatus status = (accountDetail.isEmpty()) ? TransactionStatus.REJECTED : TransactionStatus.APPROVED ;
+
+        return TransactionReceipt.builder().accountDetail(accountDetail).status(status).transactionDateAndTime(LocalDateTime.now()).transactionId(transactionId).build() ;
+      
     }
 
     public Integer getBalance(String accountNumber){

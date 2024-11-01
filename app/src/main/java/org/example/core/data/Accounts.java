@@ -10,5 +10,5 @@ public class Accounts {
     private String customerId ;
     private String accountNumber ;
     private Integer balance ;
-    LocalDate issuedDate ;
+    private LocalDate issuedDate ;
 }

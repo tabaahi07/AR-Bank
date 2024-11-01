@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import lombok.*;
 
 @Getter
+@Data
 public class AddCustomerDetailsRequest {
     private String firstName;
     private String middleName;

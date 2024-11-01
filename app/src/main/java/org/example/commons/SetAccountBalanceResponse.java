@@ -7,6 +7,7 @@ import org.example.commons.Enums.TransactionStatus;
 import lombok.*;
 
 @Builder
+@Data
 public class SetAccountBalanceResponse {
     private TransactionStatus status ;
     private String transactionId ;

@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.example.core.data.Accounts;
 
 @Builder
-
+@Data
 public class ListCustomerAccountResponse {
     Optional<List<Accounts>> customerAccounts;
 }

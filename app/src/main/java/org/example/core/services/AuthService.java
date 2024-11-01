@@ -1,6 +1,8 @@
 package org.example.core.services;
 import org.example.core.dao.IAuthDAO;
 import org.example.core.data.UserAuth;
+import org.example.core.db.inmem.AuthDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -10,8 +12,8 @@ import lombok.Builder;
 @Builder
 @Service
 public class AuthService {
-
-    private IAuthDAO authDAO;
+    @Autowired
+    private AuthDAO authDAO;
 
     /**
      * 1. Check if user exists

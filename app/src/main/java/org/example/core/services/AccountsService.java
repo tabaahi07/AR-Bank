@@ -1,16 +1,21 @@
 package org.example.core.services;
 import org.example.commons.Enums.TransactionStatus;
 import org.example.commons.Enums.TransactionType;
-import org.example.core.dao.IAccountsDAO;
 import org.example.core.data.Accounts;
+import org.example.core.db.inmem.AccountsDAO;
 import org.example.core.dto.TransactionReceipt;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.time.* ;
 import lombok.Builder;
 import java.util.* ;
 
 @Builder
+@Service
 public class AccountsService {
-    private IAccountsDAO accountDAO ;
+    @Autowired
+    private AccountsDAO accountDAO ;
 
     public String createAccount(String customerId){
         String newAccountNumber = UUID.randomUUID().toString();

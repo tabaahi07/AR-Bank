@@ -2,9 +2,14 @@ package org.example.core.db.inmem;
 import java.util.*;
 import org.example.core.dao.IAccountsDAO;
 import org.example.core.data.Accounts;
+import org.springframework.stereotype.Repository;
+
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Repository
+@Builder
 public class AccountsDAO implements IAccountsDAO {
     private Map<String , List<Accounts>> accountsMap = new HashMap<>() ;
     private Map<String , Accounts> accountDetailMap = new HashMap<>() ;

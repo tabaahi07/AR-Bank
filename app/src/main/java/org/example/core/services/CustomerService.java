@@ -2,10 +2,13 @@ package org.example.core.services;
 import org.example.commons.AddCustomerDetailsRequest;
 import org.example.core.dao.ICustomerDataDAO;
 import org.example.core.data.CustomerData;
+import org.springframework.stereotype.Service;
+
 import lombok.Builder;
 import java.util.* ;
 
 @Builder
+@Service
 public class CustomerService {
     private ICustomerDataDAO customerDAO ;
 

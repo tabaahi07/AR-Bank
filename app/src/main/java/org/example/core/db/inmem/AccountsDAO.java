@@ -11,7 +11,9 @@ import lombok.Getter;
 @Repository
 @Builder
 public class AccountsDAO implements IAccountsDAO {
+    // CustomerId -- List of customer accounts
     private Map<String , List<Accounts>> accountsMap = new HashMap<>() ;
+    // AccountNumber - accountInfo
     private Map<String , Accounts> accountDetailMap = new HashMap<>() ;
     
     public String createAccount(String newAccountNumber , Accounts newAccount , String customerId){
@@ -19,6 +21,7 @@ public class AccountsDAO implements IAccountsDAO {
         accountDetailMap.put(newAccountNumber , newAccount) ;
         currentAccountList.add(newAccount) ;
         accountsMap.put(customerId , currentAccountList) ;
+        System.out.println("account added");
         return newAccountNumber ;
     }
 

@@ -17,4 +17,9 @@ public class AuthDAO implements IAuthDAO {
     public void setUserAuth(UserAuth userAuth){
         userAuthMap.put(userAuth.getUserId() , userAuth) ;
     }
+
+    public Boolean accountCreationAuth(String customerId , String accessToken){
+        if(userAuthMap.get(customerId).getAccessToken() != accessToken) return false ;
+        return true ;
+    }
 }

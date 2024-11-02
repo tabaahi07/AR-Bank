@@ -1,9 +1,9 @@
 package org.example.commons;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
 @Data
-public class AddCustomerAccountRequest extends AuthenticatedRequest {
+public class AddCustomerAccountRequest {
     private String customerId;
+    private String accessToken ;
 }

@@ -40,7 +40,7 @@ public class CustomerService {
                 hashedPasswd(request.getPassword()).
                 userId(newCustomerId).
                 accessToken(accessToken).
-                tokenExpiry(LocalDateTime.now().plusMinutes(2)).build()
+                tokenExpiry(LocalDateTime.now().plusMinutes(15)).build()
             );
 
         return customerDAO.addCustomerData(newCustomerId , newCustomer) ;

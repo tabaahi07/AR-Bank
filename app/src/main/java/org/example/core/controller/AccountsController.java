@@ -29,7 +29,7 @@ public class AccountsController {
     @PostMapping(value = "/addAccount")
     public AddCustomerAccountResponse createCustomerAccount(@RequestBody AddCustomerAccountRequest request) {
        return AddCustomerAccountResponse.builder().
-            accountNumber(accountService.createAccount(request.getCustomerId())).build() ;
+            accountNumber(accountService.createAccount(request.getCustomerId() , request.getAccessToken())).build() ;
     }
 
 

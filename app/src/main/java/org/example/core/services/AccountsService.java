@@ -3,6 +3,7 @@ import org.example.commons.Enums.TransactionStatus;
 import org.example.commons.Enums.TransactionType;
 import org.example.core.data.Accounts;
 import org.example.core.db.inmem.AccountsDAO;
+import org.example.core.db.inmem.AuthDAO;
 import org.example.core.dto.TransactionReceipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,12 @@ import java.util.* ;
 public class AccountsService {
     @Autowired
     private AccountsDAO accountDAO ;
+    @Autowired
+    private AuthDAO userAuth ;
 
-    public String createAccount(String customerId){
+    public String createAccount(String customerId , String accessToken){
+        if(!userAuth.accountCreationAuth(customerId, accessToken)) return null ;
         String newAccountNumber = UUID.randomUUID().toString();
-
         Accounts newAccount = Accounts.builder().
             customerId(customerId).
             accountNumber(newAccountNumber).

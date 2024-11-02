@@ -33,7 +33,7 @@ public class BankApp implements IBankApp {
     @Override
     public AddCustomerAccountResponse createCustomerAccount(AddCustomerAccountRequest request) {
        return AddCustomerAccountResponse.builder().
-            accountNumber(accountService.createAccount(request.getCustomerId())).build() ;
+            accountNumber(accountService.createAccount(request.getCustomerId() , request.getAccessToken())).build() ;
     }
 
     @Override

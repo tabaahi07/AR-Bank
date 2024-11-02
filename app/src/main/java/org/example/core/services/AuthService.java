@@ -37,4 +37,10 @@ public class AuthService {
             return accessToken ;
         }
     } 
+
+    
+    public Boolean validateAccessToken(String customerId , String accessToken){
+        UserAuth userAuth = authDAO.getUserAuth(customerId).get() ;
+        return (userAuth.getAccessToken().equals(accessToken) && LocalDateTime.now().isBefore(userAuth.getTokenExpiry())) ;
+    }
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
+
 import lombok.Builder;
 
 @Builder
@@ -28,6 +30,11 @@ public class AuthService {
         if (userAuth.isEmpty()) return null;
         if (!userAuth.get().getHashedPasswd().equals(passwd)) return null;
         if (userAuth.get().getTokenExpiry().isAfter(LocalDateTime.now())) return userAuth.get().getAccessToken();
-        return "Hi";
-    }
+        else{
+            String accessToken = UUID.randomUUID().toString();
+            userAuth.get().setAccessToken(accessToken) ;
+            authDAO.setUserAuth(userAuth.get());
+            return accessToken ;
+        }
+    } 
 }

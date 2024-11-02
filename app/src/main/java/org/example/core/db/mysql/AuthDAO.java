@@ -10,4 +10,10 @@ public class AuthDAO implements IAuthDAO {
             // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'getUserAuth'");
         }
+
+        @Override
+        public void setUserAuth(UserAuth userAuth) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'setUserAuth'");
+        }
 }

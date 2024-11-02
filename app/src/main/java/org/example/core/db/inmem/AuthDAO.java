@@ -12,4 +12,9 @@ public class AuthDAO implements IAuthDAO {
     public Optional<UserAuth> getUserAuth(String userId) {
         return Optional.ofNullable(userAuthMap.get(userId));
     }
+
+    @Override
+    public void setUserAuth(UserAuth userAuth){
+        userAuthMap.put(userAuth.getUserId() , userAuth) ;
+    }
 }

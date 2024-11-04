@@ -7,4 +7,5 @@ import lombok.Getter;
 @Data
 public class ListCustomerAccountRequest extends AuthenticatedRequest {
     private String customerId;
+    private String accessToken ;
 }

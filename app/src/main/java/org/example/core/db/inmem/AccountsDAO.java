@@ -18,6 +18,7 @@ public class AccountsDAO implements IAccountsDAO {
     
     public String createAccount(String newAccountNumber , Accounts newAccount , String customerId){
         List<Accounts> currentAccountList = accountsMap.get(customerId) ;
+        if(currentAccountList == null) currentAccountList = new ArrayList<>() ;
         accountDetailMap.put(newAccountNumber , newAccount) ;
         currentAccountList.add(newAccount) ;
         accountsMap.put(customerId , currentAccountList) ;

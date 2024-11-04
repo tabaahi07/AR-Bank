@@ -26,34 +26,35 @@ public class AccountsController {
     @Autowired
     private AccountsService accountService ;
     
-    @PostMapping(value = "/addAccount")
+    @PostMapping(value = "/create")
     public AddCustomerAccountResponse createCustomerAccount(@RequestBody AddCustomerAccountRequest request) {
        return AddCustomerAccountResponse.builder().
             accountNumber(accountService.createAccount(request.getCustomerId() , request.getAccessToken())).build() ;
     }
 
 
-    @PostMapping(value = "/setAccountBalance")
+    @PostMapping(value = "/balance/set")
     public SetAccountBalanceResponse setAccountBalanceResponse(@RequestBody SetAccountBalanceRequest request){
 
-     TransactionReceipt receipt = accountService.setAccountBalance(request.getAccountNumber() , request.getAmount() , request.getTransactionType()) ;
+     Optional<TransactionReceipt> receipt = accountService.setAccountBalance(request.getCustomerId() , request.getAccessToken() , request.getAccountNumber() , request.getAmount() , request.getTransactionType()) ;
 
+     if(receipt == null) return null ;
      return SetAccountBalanceResponse.builder()
             .transactionAmount(request.getAmount())
-            .status(receipt.getStatus())
-            .transactionDateAndTime(receipt.getTransactionDateAndTime()).transactionId(receipt.getTransactionId()).
+            .status(receipt.get().getStatus())
+            .transactionDateAndTime(receipt.get().getTransactionDateAndTime()).transactionId(receipt.get().getTransactionId()).
             build() ;
    }
 
-   @PostMapping(value = "/getAccountBalance")
+   @PostMapping(value = "/balance/get")
    public AccountBalanceResponse accountBalance(@RequestBody AccountBalanceRequest request) {
-        return AccountBalanceResponse.builder().balance(accountService.getBalance(request.getAccountNumber())).build() ;
+        return AccountBalanceResponse.builder().balance(accountService.getBalance(request.getCustomerId() , request.getAccessToken() , request.getAccountNumber())).build() ;
     }
 
     
-    @PostMapping(value = "/listCustomerAccount")
+    @PostMapping(value = "/list")
     public ListCustomerAccountResponse listCustomerAccounts(@RequestBody ListCustomerAccountRequest request) {
-        Optional<List<Accounts>> accountList = accountService.listAccounts(request.getCustomerId()) ;
+        Optional<List<Accounts>> accountList = accountService.listAccounts(request.getCustomerId() , request.getAccessToken()) ;
         return ListCustomerAccountResponse.builder().
             customerAccounts(accountList)
             .build() ;

@@ -32,32 +32,34 @@ public class AccountsService {
         return accountDAO.createAccount(newAccountNumber , newAccount , customerId) ;
     }
 
-    public Optional<List<Accounts>> listAccounts(String customerId){
+    public Optional<List<Accounts>> listAccounts(String customerId , String accessToken){
+        if(!authService.validateAccessToken(customerId, accessToken)) return null ;
         Optional<List<Accounts>> accountList = accountDAO.listAccounts(customerId) ;
         if(accountList.isEmpty()) return null ;
         return accountList ;
     }
 
-    public TransactionReceipt setAccountBalance(String accountNumber , Integer amount , TransactionType transactionType){
+    public Optional<TransactionReceipt> setAccountBalance(String customerId , String accessToken , String accountNumber , Integer amount , TransactionType transactionType){
+        if(!authService.validateAccessToken(customerId, accessToken)) return null ;
         Optional<Accounts> accountDetail ;
         if(transactionType == TransactionType.DEPOSIT) accountDetail = accountDAO.setAccountBalance(accountNumber , amount) ;
 
-        accountDetail = accountDAO.setAccountBalance(accountNumber , (-1*amount)) ;
-
+        else accountDetail = accountDAO.setAccountBalance(accountNumber , (-1*amount)) ;
+        if(accountDetail == null) return null ;
         String transactionId = UUID.randomUUID().toString();
 
         TransactionStatus status = (accountDetail.isEmpty()) ? TransactionStatus.REJECTED : TransactionStatus.APPROVED ;
 
-        return TransactionReceipt.builder().
+        return Optional.of(TransactionReceipt.builder().
             accountDetail(accountDetail).
             status(status).
             transactionDateAndTime(LocalDateTime.now()).
             transactionId(transactionId).
-            build() ;
-      
+            build()) ;
     }
 
-    public Integer getBalance(String accountNumber){
+    public Integer getBalance(String customerId , String accessToken , String accountNumber){
+        if(!authService.validateAccessToken(customerId, accessToken)) return null ;
         Optional<Accounts> userAccount = accountDAO.getBalance(accountNumber) ;
         if(userAccount.isEmpty()) return 0 ;
         return userAccount.get().getBalance() ;

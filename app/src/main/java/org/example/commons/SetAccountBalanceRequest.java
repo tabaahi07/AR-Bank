@@ -8,6 +8,8 @@ import lombok.Getter;
 @Getter
 @Data
 public class SetAccountBalanceRequest {
+    private String customerId ;
+    private String accessToken ;
     private String accountNumber ;
     private Integer amount;
     private TransactionType transactionType ; 

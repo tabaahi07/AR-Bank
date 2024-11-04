@@ -38,7 +38,7 @@ public class BankApp implements IBankApp {
 
     @Override
     public ListCustomerAccountResponse listCustomerAccounts(ListCustomerAccountRequest request) {
-        Optional<List<Accounts>> accountList = accountService.listAccounts(request.getCustomerId()) ;
+        Optional<List<Accounts>> accountList = accountService.listAccounts(request.getCustomerId() , request.getAccessToken()) ;
         return ListCustomerAccountResponse.builder().
             customerAccounts(accountList)
             .build() ;
@@ -46,18 +46,19 @@ public class BankApp implements IBankApp {
 
    public SetAccountBalanceResponse setAccountBalanceResponse(SetAccountBalanceRequest request){
 
-     TransactionReceipt receipt = accountService.setAccountBalance(request.getAccountNumber() , request.getAmount() , request.getTransactionType()) ;
+     Optional<TransactionReceipt> receipt = accountService.setAccountBalance(request.getCustomerId() , request.getAccessToken() , request.getAccountNumber() , request.getAmount() , request.getTransactionType()) ;
 
+     if(receipt == null) return null ;
      return SetAccountBalanceResponse.builder()
             .transactionAmount(request.getAmount())
-            .status(receipt.getStatus())
-            .transactionDateAndTime(receipt.getTransactionDateAndTime()).transactionId(receipt.getTransactionId()).
+            .status(receipt.get().getStatus())
+            .transactionDateAndTime(receipt.get().getTransactionDateAndTime()).transactionId(receipt.get().getTransactionId()).
             build() ;
    }
 
     @Override
     public AccountBalanceResponse accountBalance(AccountBalanceRequest request) {
-        return AccountBalanceResponse.builder().balance(accountService.getBalance(request.getAccountNumber())).build() ;
+        return AccountBalanceResponse.builder().balance(accountService.getBalance(request.getCustomerId() , request.getAccessToken()  , request.getAccountNumber())).build() ;
     }
 
 }

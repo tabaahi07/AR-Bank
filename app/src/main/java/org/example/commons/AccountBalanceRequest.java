@@ -6,5 +6,7 @@ import lombok.Getter;
 @Getter
 @Data
 public class AccountBalanceRequest extends AuthenticatedRequest {
+    private String customerId ;
+    private String accessToken ;
     private String accountNumber ;
 }
